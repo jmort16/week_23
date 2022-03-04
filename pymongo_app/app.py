@@ -42,6 +42,10 @@ def get_info():
         text = "New Show Record Created Successfully"
         return text
 
+results= tv_shows.find()
+for result in results:
+    print(result)
+
 # Update a record
 @app.route("/record_update",methods=['GET','POST'])
 def change_info():
@@ -52,14 +56,14 @@ def change_info():
         newfield = request.form['newfield']
         newinfo = request.form['newinfo']
         filter = { 'name': newname }
-        
+
         # Values to be updated.
         if newfield == 'NS':
-            newvalues = { "$set": { 'Number of Seasons': newinfo } }
+            newvalues = { "$set": { 'seasons': newinfo } }
         elif newfield == 'EL':
-            newvalues = { "$set": { 'Episode Length (in minutes)': newinfo } }
+            newvalues = { "$set": { 'duration': newinfo } }
         else:
-            newvalues = { "$set": { 'Year Series Began': newinfo } }
+            newvalues = { "$set": { 'year': newinfo } }
 
         tv_shows.update_one(filter, newvalues)
         text = "Show Record Updated Successfully"
