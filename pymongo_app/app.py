@@ -76,12 +76,12 @@ def change_info():
 @app.route("/record_delete", methods=["POST", "GET"])
 
 def delete_func():
-    if:
+    if request.method=="GET":
+        
         return render_template("delete.html")
     
     else:
-        request.method=="POST":
-                
+                       
         post_delete = {'name':request.form['targetname']}
 
         tv_shows.delete_one(post_delete)
