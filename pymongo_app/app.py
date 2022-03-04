@@ -73,9 +73,9 @@ def change_info():
         return text
 
 # Delete a record
-@app.route("/record_delete", methods=["POST", "GET"])
+@app.route("/record_delete", methods=["GET", "POST"])
 
-def delete_func():
+def delete_info():
     if request.method=="GET":
         
         return render_template("delete.html")
