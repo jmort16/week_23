@@ -19,6 +19,7 @@ def index():
     #find all items in db and save to a variable
     all_shows = list(tv_shows.find())
     return render_template('index.html',data=all_shows)
+    
 # Create a record
 @app.route("/record_creation",methods=['GET','POST'])
 def get_info():
@@ -40,14 +41,33 @@ def get_info():
         tv_shows.insert_one(post_data)
         text = "New Show Record Created Successfully"
         return text
+
 # Update a record
-@app.route("/record_update")
-def update_info():
-    search = input("What show are you wanting to update?")
-    field = input("Which field do you want to update?")
-    results= tv_shows.find()
-    for result in results:
-        print(result)
+@app.route("/record_update",methods=['GET','POST'])
+def change_info():
+    if request.method == 'GET':
+        return render_template("update.html")
+    else:
+        newname = request.form['newname']
+        newfield = request.form['newfield']
+        newinfo = request.form['newinfo']
+        filter = { 'name': newname }
+        
+        # Values to be updated.
+        if newfield == 'NS':
+            newvalues = { "$set": { 'Number of Seasons': newinfo } }
+        elif newfield == 'EL':
+            newvalues = { "$set": { 'Episode Length (in minutes)': newinfo } }
+        else:
+            newvalues = { "$set": { 'Year Series Began': newinfo } }
+
+        tv_shows.update_one(filter, newvalues)
+        text = "Show Record Updated Successfully"
+        return text
+
+
+
+
 #READ
 if __name__ == "__main__":
     app.run(debug=True)
