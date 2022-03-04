@@ -86,7 +86,7 @@ def delete_func():
         return "<p>Show Record Deleted Successfully.</p>"
     
     else:
-        return render_template("delete_form.html")
+        return render_template("delete.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
