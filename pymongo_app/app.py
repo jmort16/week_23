@@ -38,7 +38,7 @@ def get_info():
                     'date_added':datetime.datetime.utcnow()
         }
         tv_shows.insert_one(post_data)
-        text = "data added"
+        text = "New Show Record Created Successfully"
         return text
 # Update a record
 @app.route("/record_update")
