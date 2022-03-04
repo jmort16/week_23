@@ -21,7 +21,7 @@ def index():
     return render_template('index.html',data=all_shows)
     
 # Create a record
-@app.route("/record_creation",methods=['GET','POST'])
+@app.route("/record_create",methods=['GET','POST'])
 def get_info():
     if request.method == 'GET':
         form_url = os.path.join("templates","create.html")
@@ -39,7 +39,7 @@ def get_info():
                     'date_added':datetime.datetime.utcnow()
         }
         tv_shows.insert_one(post_data)
-        text = "New Show Record Created Successfully"
+        text = "<p>Show Record Created Successfully</p>"
         return text
 
 results= tv_shows.find()
@@ -69,23 +69,27 @@ def change_info():
             'date_updated':datetime.datetime.utcnow() }}
 
         tv_shows.update_one(filter, newvalues)
-        text = "Show Record Updated Successfully"
+        text = "<p>Show Record Updated Successfully</p>"
         return text
 
+# Delete a record
+@app.route("/record_delete", methods=["POST", "GET"])
 
+def delete_func():
+    if request.method=="POST":
+        delete_data = request.form
+        
+        post_delete = {'name':delete_data['targetname']}
 
+        tv_shows.delete_one(post_delete)
 
-#READ
+        return "<p>Show Record Deleted Successfully.</p>"
+    
+    else:
+        return render_template("delete_form.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
-# Now, we can run this by going to terminal and cd-ing into flaskAPI_framework.
-# And run the flask command:
-    # we are exporting our flask app to what we called our flask app: 'flask-app'
-#      export FLASK_APP=flask-app
-    # then we connect to our localhost thru 'flask run'
-#      flask run
-
-
 
 
 
