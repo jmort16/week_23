@@ -59,11 +59,14 @@ def change_info():
 
         # Values to be updated.
         if newfield == 'NS':
-            newvalues = { "$set": { 'seasons': newinfo } }
+            newvalues = { "$set": { 'seasons': newinfo
+                                    'date_updated':datetime.datetime.utcnow() }}
         elif newfield == 'EL':
-            newvalues = { "$set": { 'duration': newinfo } }
+            newvalues = { "$set": { 'duration': newinfo
+                                    'date_updated':datetime.datetime.utcnow() }}
         else:
-            newvalues = { "$set": { 'year': newinfo } }
+            newvalues = { "$set": { 'year': newinfo
+                                    'date_updated':datetime.datetime.utcnow() }}
 
         tv_shows.update_one(filter, newvalues)
         text = "Show Record Updated Successfully"
