@@ -77,9 +77,8 @@ def change_info():
 
 def delete_func():
     if request.method=="POST":
-        delete_data = request.form
-        
-        post_delete = {'name':delete_data['targetname']}
+                
+        post_delete = {'name':request.form['targetname']}
 
         tv_shows.delete_one(post_delete)
 
