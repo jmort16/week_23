@@ -52,9 +52,10 @@ def change_info():
     if request.method == 'GET':
         return render_template("update.html")
     else:
-        newname = request.form['newname']
-        newfield = request.form['newfield']
-        newinfo = request.form['newinfo']
+        update_info = request.form
+        newname = update_info['newname']
+        newfield = update_info['newfield']
+        newinfo = update_info['newinfo']
         filter = { 'name': newname }
 
         # Values to be updated.
@@ -64,9 +65,12 @@ def change_info():
         elif newfield == 'EL':
             newvalues = { "$set": { 'duration': newinfo,
             'date_updated':datetime.datetime.utcnow() }}
-        else:
+        elif newfield == 'YB':
             newvalues = { "$set": { 'year': newinfo,
             'date_updated':datetime.datetime.utcnow() }}
+        else:
+            text = "<p>Enter an option listed.</p>"
+            return text
 
         tv_shows.update_one(filter, newvalues)
         text = "<p>Show Record Updated Successfully</p>"
