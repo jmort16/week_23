@@ -32,14 +32,14 @@ def get_info():
         seasons = request.form['seasons']
         duration = request.form['duration']
         year = request.form['year']
-        post_data = {'name':show_name,
+        entry_data = {'name':show_name,
                     'seasons':seasons,
                     'duration':duration,
                     'year':year,
                     'date_added':datetime.datetime.utcnow()
         }
-        tv_shows.insert_one(post_data)
-        text = "<p>Show Record Created Successfully</p>"
+        tv_shows.insert_one(entry_data)
+        text = "<p>Record Created Successfully</p>"
         return text
 
 results= tv_shows.find()
@@ -50,12 +50,17 @@ for result in results:
 @app.route("/record_update",methods=['GET','POST'])
 def change_info():
     if request.method == 'GET':
+
         return render_template("update.html")
+
     else:
+
         update_info = request.form
+
         newname = update_info['newname']
         newfield = update_info['newfield']
         newinfo = update_info['newinfo']
+
         filter = { 'name': newname }
 
         # Values to be updated.
@@ -73,7 +78,7 @@ def change_info():
             return text
 
         tv_shows.update_one(filter, newvalues)
-        text = "<p>Show Record Updated Successfully</p>"
+        text = "<p>Record Updated Successfully</p>"
         return text
 
 # Delete a record
@@ -85,12 +90,14 @@ def delete_info():
         return render_template("delete.html")
     
     else:
+
+        delete_info = request.form
                        
-        post_delete = {'name':request.form['targetname']}
+        data_to_delete = {'name':delete_info['targetname']}
 
-        tv_shows.delete_one(post_delete)
+        tv_shows.delete_one(data_to_delete)
 
-        return "<p>Show Record Deleted Successfully.</p>"
+        return "<p>Record Deleted Successfully.</p>"
         
 if __name__ == "__main__":
     app.run(debug=True)
